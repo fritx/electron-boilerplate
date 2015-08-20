@@ -107,5 +107,11 @@ module.exports = function () {
     .then(packageBuiltApp)
     .then(finalize)
     .then(packToDebFile)
+
+    .then(function(){
+        var finalPackageName = manifest.name + '_' + manifest.version
+        releasesDir.remove(finalPackageName)
+        return readyAppDir.copyAsync('.', releasesDir.path(finalPackageName))
+    })
     .then(cleanClutter);
 };

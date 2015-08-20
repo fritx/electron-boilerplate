@@ -122,6 +122,12 @@ module.exports = function () {
     .then(packageBuiltApp)
     .then(finalize)
     .then(renameApp)
-    .then(createInstaller)
+    //.then(createInstaller)
+    
+    .then(function(){
+        var finalPackageName = manifest.name + '_' + manifest.version
+        releasesDir.remove(finalPackageName)
+        return readyAppDir.copyAsync('.', releasesDir.path(finalPackageName))
+    })
     .then(cleanClutter);
 };
